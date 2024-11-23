@@ -3,13 +3,16 @@ import './style.css';
 
 
 export const JourneyPicker = ({ onJourneyChange }) => {
-  const[fromCity, setFromCity]= useState('');
+  const [fromCity, setFromCity] = useState('');
   const [toCity, setToCity] = useState('');
-  const[date, setDate] = useState('');
+  const [date, setDate] = useState('');
 
-  const handleSubmit = (event) =>{
-    event.preventDefault();
+  const handleSubmit = (e) =>{
+    e.preventDefault();
     console.log('Odesílám formulář s cestou');
+    console.log('Odkud:', fromCity)
+    console.log('Kam:', toCity )
+    console.log('Datum:', date)
   }
   return (
     <div className="journey-picker container">
@@ -19,7 +22,7 @@ export const JourneyPicker = ({ onJourneyChange }) => {
           <label>
             <div className="journey-picker__label">Odkud:</div>
             <select>
-              <option value={fromCity} onSelect={setFromCity}>
+              <option value={fromCity} onChange={(e)=> setFromCity(e.target.value)}>
                 Vyberte
               </option>
               <option value="mesto01">Město 01</option>
@@ -32,7 +35,9 @@ export const JourneyPicker = ({ onJourneyChange }) => {
           <label>
             <div className="journey-picker__label">Kam:</div>
             <select>
-              <option value="">Vyberte</option>
+              <option value={toCity} onChange={(e)=> setToCity(e.target.value)}>
+                Vyberte
+              </option>
               <option value="mesto01">Město 01</option>
               <option value="mesto02">Město 02</option>
               <option value="mesto03">Město 03</option>
@@ -43,7 +48,7 @@ export const JourneyPicker = ({ onJourneyChange }) => {
           <label>
             <div className="journey-picker__label">Datum:</div>
             <select>
-              <option value="">Vyberte</option>
+              <option value={date} onSelect={setDate} onChange={(e)=> setDate(e.target.value)}>Vyberte</option>
               <option value="datum01">Datum 01</option>
               <option value="datum02">Datum 02</option>
               <option value="datum03">Datum 03</option>
@@ -52,7 +57,7 @@ export const JourneyPicker = ({ onJourneyChange }) => {
             </select>
           </label>
           <div className="journey-picker__controls">
-            <button className="btn" type="submit" onSubmit={handleSubmit}>
+            <button className="btn" type="submit" onClick={handleSubmit}>
               Vyhledat spoj
             </button>
           </div>
