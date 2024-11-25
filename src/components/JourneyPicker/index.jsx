@@ -6,7 +6,34 @@ export const JourneyPicker = ({ onJourneyChange }) => {
   const [fromCity, setFromCity] = useState('');
   const [toCity, setToCity] = useState('');
   const [date, setDate] = useState('');
+  const [cities, setCities] = useState([]);
+  
+ useEffect(()=>{
+  const fetchCity = async()=> {
+    const response = await fetch('https://apps.kodim.cz/daweb/leviexpress/api/cities');
+    const data = await response.json()
+    setToCity(data)
+  };
+  fetchCity();
+  }, []);
+ 
+ 
+  const CityOptions = ({cities})=>{
+    return (
+      <>
+        {cities.map((city, index) => (
+          <option key={index} value={city}>
+            {city}
+          </option>
+        ))}
+        
+      </>
+    );
+  }
+ 
 
+
+ 
   const handleSubmit = (e) =>{
     e.preventDefault();
     console.log('Odesílám formulář s cestou');
@@ -18,37 +45,28 @@ export const JourneyPicker = ({ onJourneyChange }) => {
     <div className="journey-picker container">
       <h2 className="journey-picker__head">Kam chcete jet?</h2>
       <div className="journey-picker__body">
-        <form className="journey-picker__form">
+        <form className="journey-picker__form" onClick={handleSubmit}>
           <label>
             <div className="journey-picker__label">Odkud:</div>
-            <select>
-              <option value={fromCity} onChange={(e)=> setFromCity(e.target.value)}>
-                Vyberte
-              </option>
-              <option value="mesto01">Město 01</option>
-              <option value="mesto02">Město 02</option>
-              <option value="mesto03">Město 03</option>
-              <option value="mesto04">Město 04</option>
-              <option value="mesto05">Město 05</option>
+            <select
+              value={fromCity}
+              onChange={(e) => setFromCity(e.target.value)}
+            >
+              <option value="">Vyberte</option>
+              <CityOptions cities={cities} />
             </select>
           </label>
           <label>
             <div className="journey-picker__label">Kam:</div>
-            <select>
-              <option value={toCity} onChange={(e)=> setToCity(e.target.value)}>
-                Vyberte
-              </option>
-              <option value="mesto01">Město 01</option>
-              <option value="mesto02">Město 02</option>
-              <option value="mesto03">Město 03</option>
-              <option value="mesto04">Město 04</option>
-              <option value="mesto05">Město 05</option>
+            <select value={toCity} onChange={(e) => setToCity(e.target.value)}>
+              <option value="">Vyberte</option>
+              <CityOptions cities={cities} />
             </select>
           </label>
           <label>
             <div className="journey-picker__label">Datum:</div>
-            <select>
-              <option value={date} onSelect={setDate} onChange={(e)=> setDate(e.target.value)}>Vyberte</option>
+            <select value={date} onChange={(e) => setDate(e.target.value)}>
+              <option value="">Vyberte</option>
               <option value="datum01">Datum 01</option>
               <option value="datum02">Datum 02</option>
               <option value="datum03">Datum 03</option>
@@ -57,12 +75,12 @@ export const JourneyPicker = ({ onJourneyChange }) => {
             </select>
           </label>
           <div className="journey-picker__controls">
-            <button className="btn" type="submit" onClick={handleSubmit}>
+            <button className="btn" type="submit">
               Vyhledat spoj
             </button>
           </div>
         </form>
-        <img className="journey-picker__map" src="/map.svg" />
+        <img className="journey-picker__map" src="/map.svg" alt="Mapa" />
       </div>
     </div>
   );
