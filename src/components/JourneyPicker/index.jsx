@@ -1,46 +1,42 @@
 import React, { useEffect, useState } from 'react';
 import './style.css';
 
-
 export const JourneyPicker = ({ onJourneyChange }) => {
   const [fromCity, setFromCity] = useState('');
   const [toCity, setToCity] = useState('');
   const [date, setDate] = useState('');
   const [cities, setCities] = useState([]);
-  
- useEffect(()=>{
-  const fetchCity = async()=> {
-    const response = await fetch('https://apps.kodim.cz/daweb/leviexpress/api/cities');
-    const data = await response.json()
-    setToCity(data)
-  };
-  fetchCity();
+
+  useEffect(() => {
+    const fetchCity = async () => {
+      const response = await fetch(
+        'https://apps.kodim.cz/daweb/leviexpress/api/cities',
+      );
+      const data = await response.json();
+      setCities(data.results);
+    };
+    fetchCity();
   }, []);
- 
- 
-  const CityOptions = ({cities})=>{
+
+  const CityOptions = ({ cities }) => {
     return (
       <>
-        {cities.map((city, index) => (
-          <option key={index} value={city}>
-            {city}
+        {cities.map((city) => (
+          <option key={city.code} value={city.name}>
+            {city.name}
           </option>
         ))}
-        
       </>
     );
-  }
- 
+  };
 
-
- 
-  const handleSubmit = (e) =>{
+  const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Odesílám formulář s cestou');
-    console.log('Odkud:', fromCity)
-    console.log('Kam:', toCity )
-    console.log('Datum:', date)
-  }
+    console.log('Odkud:', fromCity);
+    console.log('Kam:', toCity);
+    console.log('Datum:', date);
+  };
   return (
     <div className="journey-picker container">
       <h2 className="journey-picker__head">Kam chcete jet?</h2>
@@ -84,5 +80,4 @@ export const JourneyPicker = ({ onJourneyChange }) => {
       </div>
     </div>
   );
-}
-
+};
