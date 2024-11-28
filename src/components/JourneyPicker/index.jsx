@@ -9,30 +9,30 @@ export const JourneyPicker = ({ onJourneyChange }) => {
   const [dates, setDates] = useState([]);
 
   useEffect(() => {
-    const fetchCity = async () => {
+    const fetchCities = async () => {
       const response = await fetch(
         'https://apps.kodim.cz/daweb/leviexpress/api/cities',
       );
       const data = await response.json();
       setCities(data.results);
     };
-    fetchCity();
+    fetchCities();
 
-    const fetchDate = async ()=>{
+    const fetchDates = async () => {
       const response = await fetch(
         'https://apps.kodim.cz/daweb/leviexpress/api/dates',
       );
       const data = await response.json();
-      setDates(data.results)
+      setDates(data.results);
     };
-    fetchDate();
+    fetchDates();
   }, []);
 
   const CityOptions = ({ cities }) => {
     return (
       <>
         {cities.map((city) => (
-          <option key={city.code} value={city.name}>
+          <option key={city.code} value={city.code}>
             {city.name}
           </option>
         ))}
@@ -40,34 +40,34 @@ export const JourneyPicker = ({ onJourneyChange }) => {
     );
   };
 
-  const DatesOptions = ()=>{
+  const DatesOptions = () => {
     return (
       <>
-      {dates.map((date)=>(
-        <option key={date.dateBasic} value={date.dateBasic}>
-        {date.dateCs}
-        </option>
-      ))}
-      
+        {dates.map((date) => (
+          <option key={date.dateBasic} value={date.dateBasic}>
+            {date.dateCs}
+          </option>
+        ))}
       </>
     );
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const url =
-      'https://apps.kodim.cz/daweb/leviexpress/api/journey?fromCity=${fromCity}toCity=${toCity}date=${date}';
-    const response = await fetch(url)
+
+    const url = `https://apps.kodim.cz/daweb/leviexpress/api/journey?fromCity=${fromCity}&toCity=${toCity}&date=${date}`;
+    const response = await fetch(url);
     const data = await response.json();
-   console.log('Journey data:');
-  }; 
+    onJourneyChange(data.results);
+  };
 
   const isFormFilled = fromCity && toCity && date;
+
   return (
     <div className="journey-picker container">
       <h2 className="journey-picker__head">Kam chcete jet?</h2>
       <div className="journey-picker__body">
-        <form className="journey-picker__form" onClick={handleSubmit}>
+        <form className="journey-picker__form" onSubmit={handleSubmit}>
           <label>
             <div className="journey-picker__label">Odkud:</div>
             <select
@@ -89,10 +89,10 @@ export const JourneyPicker = ({ onJourneyChange }) => {
             <div className="journey-picker__label">Datum:</div>
             <select value={date} onChange={(e) => setDate(e.target.value)}>
               <option value="">Vyberte</option>
-             <DatesOptions/>
+              <DatesOptions />
             </select>
           </label>
-          <div className="journey-picker__controls" >
+          <div className="journey-picker__controls">
             <button className="btn" type="submit" disabled={!isFormFilled}>
               Vyhledat spoj
             </button>
