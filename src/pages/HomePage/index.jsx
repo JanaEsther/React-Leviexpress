@@ -4,8 +4,10 @@ import { JourneyDetail } from '../../components/JourneyDetail';
 
 export const HomePage = () => {
   const[journey,setJourney]= useState(null)
-  const handleJourneyChange = (journeyData)=>{
-    setJourney(journeyData);
+
+  const handleJourneyChange = (journey)=>{
+    console.log(journey);
+    setJourney(journey);
   }
 
  
