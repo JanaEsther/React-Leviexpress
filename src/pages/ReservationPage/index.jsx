@@ -13,16 +13,16 @@ import './style.css'
   
  
   return (
-    <div class="reservation container">
+    <div className="reservation container">
       <h2>Vaše e-jízdenka č. HAQBAQASf7M</h2>
-      <div class="reservation__body">
-        <div class="reservation__headings">
+      <div className="reservation__body">
+        <div className="reservation__headings">
           <p>Datum cesty:</p>
           <p>Odjezd:</p>
           <p>Příjezd:</p>
           <p>Sedadlo:</p>
         </div>
-        <div class="reservation__info">
+        <div className="reservation__info">
           <p>sobota 18. května 2024</p>
           <p>Bratislava, 21:15</p>
           <p>Budapest, 23:55</p>

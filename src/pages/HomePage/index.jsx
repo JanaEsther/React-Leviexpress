@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { JourneyPicker } from '../../components/JourneyPicker';
 import { JourneyDetail } from '../../components/JourneyDetail';
-import { SelectedSeat } from '../../components/SelectedSeat';
+import { SeatPicker } from '../../components/SeatPicker';
+
 
 export const HomePage = () => {
   const navigate = useNavigate();
@@ -41,16 +42,16 @@ export const HomePage = () => {
     <>
       <main>
         <JourneyPicker onJourneyChange={handleJourneyChange} />
-        {journey && <SelectedSeat number={journey.autoSeat} />}
+        {journey && <JourneyDetail journey={journey} />}
+        {journey && <SeatPicker number={journey.autoSeat} />}
         <div className="controls container">
-          <button className="btn btn--big" onClick={handleBuy} type="button">
+          <button className="btn btn--big" onClick={handleBuy} type="button" disabled={!journey}>
             Rezervovat
           </button>
           <button className="btn btn__back" onClick={handleClick} type="button">
             Zpět
           </button>
         </div>
-        {journey && <JourneyDetail journey={journey} />}
       </main>
     </>
   );
